@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import CurrentLocation from './currentLocation';
 import Chatbot from './Chatbot';
 import './App.css';
+
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
 // Initialize Firebase
 const firebaseConfig = {
-  apiKey: "AIzaSyDLT5VGNrm5_Ks9gs8YlBvvS9rKrKjD2sY",
+   apiKey: "AIzaSyDLT5VGNrm5_Ks9gs8YlBvvS9rKrKjD2sY",
 
   authDomain: "climate-check-360.firebaseapp.com",
 
@@ -21,7 +22,7 @@ const firebaseConfig = {
 
   appId: "1:491332887364:web:6da35e591994f98f54ad11",
 
-  measurementId: "G-WL33DTYDFY"
+  measurementId: "G-WL33DTYDFY",
 
 };
 
@@ -50,16 +51,13 @@ function App() {
   };
 
   return (
-    <div>
+    <div className="app-container">
       <div className="container">
         <CurrentLocation />
       </div>
       <Chatbot />
-
-      <div className="darkBackground"> 
+      <div className="darkBackground">
         <h1>Weather Information</h1>
-
-        {/* UV Index */}
         <h2>UV Index</h2>
         <h5>High UV index regions in India:</h5>
         <p>Coastal regions such as Goa, Kerala, and parts of Tamil Nadu experience higher UV index values due to their proximity to the equator and ample sunlight.</p>
@@ -71,7 +69,6 @@ function App() {
         <p><em>High UV Index:</em> Tropical areas near the equator like Brazil, Australia, and parts of Africa.</p>
         <p><em>Low UV Index:</em> Polar regions such as Antarctica and areas with frequent cloud cover like Northern Europe.</p>
 
-        {/* Temperature */}
         <h2>Temperature</h2>
         <h5>High temperature regions in India:</h5>
         <p>Northwestern states like Rajasthan and Gujarat experience scorching temperatures during summer.</p>
@@ -83,7 +80,6 @@ function App() {
         <p><em>High Temperature:</em> Deserts like the Sahara Desert in Africa or the Arabian Desert in the Middle East.</p>
         <p><em>Low Temperature:</em> Polar regions like Antarctica or the Arctic Circle.</p>
 
-        {/* Air Quality */}
         <h2>Air Quality</h2>
         <h5>Regions with poor air quality in India:</h5>
         <p>Major cities like Delhi, Mumbai, and Kolkata face severe air pollution issues, especially during winter.</p>
@@ -95,7 +91,6 @@ function App() {
         <p><em>Poor Air Quality:</em> Big cities in countries like China and India.</p>
         <p><em>Good Air Quality:</em> Rural areas in Canada or parts of Scandinavia.</p>
 
-        {/* Wind */}
         <h2>Wind</h2>
         <h5>High wind regions in India:</h5>
         <p>Coastal areas along the Arabian Sea and the Bay of Bengal experience strong winds during the monsoon season.</p>
@@ -107,7 +102,6 @@ function App() {
         <p><em>High Wind:</em> Coastal areas like Cape Town in South Africa or Wellington in New Zealand.</p>
         <p><em>Low Wind:</em> Valleys in Switzerland or parts of the Amazon rainforest.</p>
 
-        {/* Precipitation */}
         <h2>Precipitation</h2>
         <h5>High precipitation regions in India:</h5>
         <p>Western Ghats regions like Kerala and parts of Karnataka receive heavy rainfall during the monsoon season.</p>
@@ -119,7 +113,6 @@ function App() {
         <p><em>High Precipitation:</em> Rainforests like the Amazon Rainforest in South America or the Congo Rainforest in Africa.</p>
         <p><em>Low Precipitation:</em> Deserts such as the Sahara Desert in Africa or the Atacama Desert in South America.</p>
 
-        {/* Humidity */}
         <h2>Humidity</h2>
         <h5>High humidity regions in India:</h5>
         <p>Coastal regions like Mumbai and Chennai experience high humidity levels, especially during the monsoon season.</p>
@@ -131,15 +124,13 @@ function App() {
         <p><em>High Humidity:</em> Places near the equator like Southeast Asia or the Amazon Basin.</p>
         <p><em>Low Humidity:</em> Deserts like the Sahara or the Middle East.</p>
 
-        {/* Sunset and Sunrise Time */}
         <h2>Sunset and Sunrise Time</h2>
         <h5>Extreme daylight variations in India:</h5>
         <p>Near the Himalayan region, there can be noticeable variations in daylight hours between summer and winter.</p>
         <p><em>Extreme Daylight Variation (India):</em> Daylight hours ranging from 9 hours in winter to 15 hours in summer (in northern regions)</p>
         <h5>Worldwide:</h5>
         <p><em>Extreme Daylight Variation:</em> Near the North and South Poles, where daylight can last for months in summer and be absent for months in winter.</p>
-      </div>
- {/* Login Section */}
+
         {!isLoggedIn ? (
           <div className="login-section">
             <h2>Login</h2>
