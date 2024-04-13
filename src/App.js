@@ -14,7 +14,8 @@ function App() {
 
     // return () => {
     //   document.body.removeChild(script);
-    };
+   // };
+       }, []);
 
   return (
     <>
@@ -104,7 +105,7 @@ function App() {
         <h5>Worldwide:</h5>
         <p><em>Extreme Daylight Variation:</em> Near the North and South Poles, where daylight can last for months in summer and be absent for months in winter.</p>
       </div>
-    </>
+   </>
   );
 }
 
