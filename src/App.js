@@ -1,38 +1,15 @@
-import React, {  useState } from 'react';
+import React from 'react';
 import CurrentLocation from './currentLocation';
+import Chatbot from './Chatbot';
 import './App.css';
-
 function App() {
-  const [isChatbotLoaded, setIsChatbotLoaded] = useState(false);
-
-  const loadChatbotScript = async () => {
-    try {
-      const script = document.createElement('script');
-      script.src = "https://www.chatbob.co/embed.js";
-      script.id = "lI3pccWnSTGYwnMU1SS0JQ";
-      script.defer = true;
-
-      // Dynamically import the script
-      await new Promise((resolve, reject) => {
-        script.onload = resolve;
-        script.onerror = reject;
-        document.body.appendChild(script);
-      });
-
-      setIsChatbotLoaded(true);
-    } catch (error) {
-      console.error('Failed to load chatbot script:', error);
-    }
-  };
+ 
 
   return (
     <>
       <div className="container">
         <CurrentLocation />
       </div>
-          {!isChatbotLoaded && (
-        <button onClick={loadChatbotScript}>Activate Chatbot</button>
-      )}
 
       <div className="darkBackground"> 
         <h1>Weather Information</h1>
