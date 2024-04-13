@@ -4,19 +4,17 @@ import './App.css';
 
 function App() {
   
-  useEffect(() => {
-    const script = document.createElement('script');
-    
-    script.src = "https://www.chatbob.co/embed.js";
-    script.id = "lI3pccWnSTGYwnMU1SS0JQ";
-    script.defer = true;
+    useEffect(() => {
+    // Comment out the script for now
+    // const script = document.createElement('script');
+    // script.src = "https://www.chatbob.co/embed.js";
+    // script.id = "lI3pccWnSTGYwnMU1SS0JQ";
+    // script.defer = true;
+    // document.body.appendChild(script);
 
-    document.body.appendChild(script);
-
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
+    // return () => {
+    //   document.body.removeChild(script);
+    // };
 
   return (
     <>
