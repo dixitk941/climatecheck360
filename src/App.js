@@ -1,15 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import CurrentLocation from './currentLocation';
 import Chatbot from './Chatbot';
 import './App.css';
-
- import firebase from 'firebase/app';
+import firebase from 'firebase/app';
 import 'firebase/auth';
-
 
 // Initialize Firebase
 const firebaseConfig = {
- apiKey: "AIzaSyDLT5VGNrm5_Ks9gs8YlBvvS9rKrKjD2sY",
+  apiKey: "AIzaSyDLT5VGNrm5_Ks9gs8YlBvvS9rKrKjD2sY",
 
   authDomain: "climate-check-360.firebaseapp.com",
 
@@ -51,14 +49,12 @@ function App() {
     setPassword('');
   };
 
- 
-
   return (
-    <>
+    <div>
       <div className="container">
         <CurrentLocation />
       </div>
-     <Chatbot />
+      <Chatbot />
 
       <div className="darkBackground"> 
         <h1>Weather Information</h1>
@@ -143,7 +139,7 @@ function App() {
         <h5>Worldwide:</h5>
         <p><em>Extreme Daylight Variation:</em> Near the North and South Poles, where daylight can last for months in summer and be absent for months in winter.</p>
       </div>
-  {/* Login Section */}
+ {/* Login Section */}
         {!isLoggedIn ? (
           <div className="login-section">
             <h2>Login</h2>
@@ -172,9 +168,8 @@ function App() {
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 }
-
 
 export default App;
