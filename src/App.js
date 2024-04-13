@@ -6,7 +6,6 @@ import CurrentLocation from './currentLocation';
 import Chatbot from './Chatbot';
 import { getDatabase, ref, push } from 'firebase/database';
 
-
 // Initialize Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyDLT5VGNrm5_Ks9gs8YlBvvS9rKrKjD2sY",
@@ -22,7 +21,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getDatabase(app);
-
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState('');
@@ -34,7 +32,7 @@ function App() {
   const [feedback, setFeedback] = useState('');
   const [weatherOption, setWeatherOption] = useState('');
 
-  useEffect(() => {
+ useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
         setIsLoggedIn(true);
@@ -52,10 +50,8 @@ function App() {
   }, []);
 
 const handleSubmit = async () => {
-    // Firebase Realtime Database reference
-  const dbRef = ref(db, 'feedbacks'); // 'feedbacks' is the node where you want to store the feedbacks
+    const dbRef = ref(db, 'feedbacks');
 
-    // Data to be submitted
     const feedbackData = {
       firstName,
       lastName,
@@ -66,10 +62,9 @@ const handleSubmit = async () => {
     };
 
     try {
-      // Pushing data to Firebase
       await push(dbRef, feedbackData);
-      
-      // Clear the form after submission
+
+      // Clear form fields and state
       setFirstName('');
       setLastName('');
       setEmail('');
@@ -81,8 +76,7 @@ const handleSubmit = async () => {
     } catch (error) {
       console.error('Error submitting feedback:', error);
     }
-};
-
+  };
 
   const handleLogout = () => {
     signOut(auth);
@@ -175,38 +169,28 @@ const handleSubmit = async () => {
       </div>
       <div className="feedback-form">
         <h2>Feedback Form</h2>
+        {/* Feedback Form fields */}
         <div className="input-group">
           <label>First Name:</label>
           <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
-</div>
-        <div className="input-group">
-          <label>Last Name:</label>
-          <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} />
         </div>
-        <div className="input-group">
-          <label>Email:</label>
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-        </div>
-        <div className="input-group">
-          <label>Phone Number:</label>
-          <input type="tel" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
-        </div>
+        {/* ... (other input groups) */}
         <div className="input-group">
           <label>Weather Option:</label>
           <select value={weatherOption} onChange={(e) => setWeatherOption(e.target.value)}>
-          <option value="thunderstorm">Thunderstorm</option>
-          <option value="rain">Rain</option>
-          <option value="sunny">Sunny</option>
-          <option value="cloudy">Cloudy</option>
-          <option value="alloption">All Options</option>
-        </select>
+            <option value="thunderstorm">Thunderstorm</option>
+            <option value="rain">Rain</option>
+            <option value="sunny">Sunny</option>
+            <option value="cloudy">Cloudy</option>
+            <option value="alloption">All Options</option>
+          </select>
+        </div>
+        <div className="input-group">
+          <label>Feedback:</label>
+          <textarea value={feedback} onChange={(e) => setFeedback(e.target.value)} />
+        </div>
+        <button onClick={handleSubmit}>Submit Feedback</button>
       </div>
-      <div className="input-group">
-        <label>Feedback:</label>
-        <textarea value={feedback} onChange={(e) => setFeedback(e.target.value)} />
-      </div>
-      <button onClick={handleSubmit}>Submit Feedback</button>
-    </div>
 
    {!isLoggedIn ? (
       <div className="auth-section">
