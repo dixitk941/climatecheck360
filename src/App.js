@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {  useState } from 'react';
 import CurrentLocation from './currentLocation';
 import './App.css';
 
@@ -20,9 +20,10 @@ function App() {
       <div className="container">
         <CurrentLocation />
       </div>
-     {!isChatbotLoaded && (
-          <button onClick={loadChatbotScript}>Activate Chatbot</button>
-        )}
+          {!isChatbotLoaded && (
+        <button onClick={loadChatbotScript}>Activate Chatbot</button>
+      )}
+
       <div className="darkBackground"> 
         <h1>Weather Information</h1>
 
