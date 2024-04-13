@@ -67,9 +67,6 @@ function App() {
     setPassword('');
   };
 
-
-
-
   return (
    <div className="app-container">
       <div className="container">
@@ -112,7 +109,7 @@ function App() {
         <p><em>Poor Air Quality:</em> Big cities in countries like China and India.</p>
         <p><em>Good Air Quality:</em> Rural areas in Canada or parts of Scandinavia.</p>
 
-        <h2>Wind</h2>
+              <h2>Wind</h2>
         <h5>High wind regions in India:</h5>
         <p>Coastal areas along the Arabian Sea and the Bay of Bengal experience strong winds during the monsoon season.</p>
         <p><em>High Wind (India):</em> Up to 60-70 km/h (during monsoon)</p>
@@ -151,12 +148,13 @@ function App() {
         <p><em>Extreme Daylight Variation (India):</em> Daylight hours ranging from 9 hours in winter to 15 hours in summer (in northern regions)</p>
         <h5>Worldwide:</h5>
         <p><em>Extreme Daylight Variation:</em> Near the North and South Poles, where daylight can last for months in summer and be absent for months in winter.</p>
+      </div>
       <div className="feedback-form">
         <h2>Feedback Form</h2>
         <div className="input-group">
           <label>First Name:</label>
           <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
-        </div>
+</div>
         <div className="input-group">
           <label>Last Name:</label>
           <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} />
@@ -171,42 +169,43 @@ function App() {
         </div>
         <div className="input-group">
           <label>Weather Option:</label>
-          <select value={weatherOption} onChange={(e) => setWeatherOption(e.target.value)}>
-            <option value="thunderstorm">Thunderstorm</option>
-            <option value="rain">Rain</option>
-            <option value="sunny">Sunny</option>
-            <option value="cloudy">Cloudy</option>
-            <option value="alloption">All Options</option>
-          </select>
+          <select value={weatherOption} onChange={(e) => setWeatherOption(e.        target.value)}>
+          <option value="thunderstorm">Thunderstorm</option>
+          <option value="rain">Rain</option>
+          <option value="sunny">Sunny</option>
+          <option value="cloudy">Cloudy</option>
+          <option value="alloption">All Options</option>
+        </select>
+      </div>
+      <div className="input-group">
+        <label>Feedback:</label>
+        <textarea value={feedback} onChange={(e) => setFeedback(e.target.value)} />
+      </div>
+      <button onClick={handleSubmit}>Submit Feedback</button>
+    </div>
+
+   {!isLoggedIn ? (
+      <div className="auth-section">
+        <h2>Login</h2>
+        <div className="input-group">
+          <label>Email:</label>
+          <input type="email" value={username} onChange={(e) => setUsername(e.target.value)} />
         </div>
         <div className="input-group">
-          <label>Feedback:</label>
-          <textarea value={feedback} onChange={(e) => setFeedback(e.target.value)} />
+          <label>Password:</label>
+          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
         </div>
-        <button onClick={handleSubmit}>Submit Feedback</button>
+        <button onClick={() => signInWithEmailAndPassword(auth, username, password)}>Login</button>
+        <button onClick={() => createUserWithEmailAndPassword(auth, username, password)}>Register</button>
       </div>
-
-     {!isLoggedIn ? (
-        <div className="auth-section">
-          <h2>Login</h2>
-          <div className="input-group">
-            <label>Email:</label>
-            <input type="email" value={username} onChange={(e) => setUsername(e.target.value)} />
-          </div>
-          <div className="input-group">
-            <label>Password:</label>
-            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-          </div>
-          <button onClick={() => { /* Handle login */ }}>Login</button>
-        </div>
-      ) : (
-        <div className="logout-section">
-          <h2>Welcome, {username}!</h2>
-          <button onClick={handleLogout}>Logout</button>
-        </div>
-      )}
-    </div>
-  );
+    ) : (
+      <div className="logout-section">
+        <h2>Welcome, {username}!</h2>
+        <button onClick={handleLogout}>Logout</button>
+      </div>
+    )}
+  </div>
+);
 }
 
 export default App;
