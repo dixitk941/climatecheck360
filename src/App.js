@@ -1,33 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { initializeApp } from 'firebase/app';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import CurrentLocation from './currentLocation';
 import Chatbot from './Chatbot';
 import './App.css';
 
 // Initialize Firebase
 const firebaseConfig = {
-   apiKey: "AIzaSyDLT5VGNrm5_Ks9gs8YlBvvS9rKrKjD2sY",
-  authDomain: "climate-check-360.firebaseapp.com",
-  databaseURL: "https://climate-check-360-default-rtdb.firebaseio.com",
-  projectId: "climate-check-360",
-  storageBucket: "climate-check-360.appspot.com",
-  messagingSenderId: "491332887364",
-  appId: "1:491332887364:web:6da35e591994f98f54ad11",
-  measurementId: "G-WL33DTYDFY"
-
+  // ... your config here
 };
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [isSignUp, setIsSignUp] = useState(false); // to toggle between login and sign-up
+  const [isSignUp, setIsSignUp] = useState(false);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [weatherOption, setWeatherOption] = useState('');
+  const [feedback, setFeedback] = useState('');
 
   useEffect(() => {
-    // Listener for authentication state change
     const unsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
         setIsLoggedIn(true);
@@ -39,7 +38,6 @@ function App() {
       }
     });
 
-    // Cleanup
     return () => {
       unsubscribe();
     };
@@ -50,7 +48,7 @@ function App() {
       if (isSignUp) {
         await createUserWithEmailAndPassword(auth, username, password);
         alert('Sign-up successful! Please log in.');
-        setIsSignUp(false); // Switch back to login after successful sign-up
+        setIsSignUp(false);
       } else {
         await signInWithEmailAndPassword(auth, username, password);
         setIsLoggedIn(true);
@@ -66,6 +64,24 @@ function App() {
     setIsLoggedIn(false);
     setUsername('');
     setPassword('');
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const docRef = await addDoc(collection(db, 'feedback'), {
+        firstName,
+        lastName,
+        email,
+        phone,
+        weatherOption,
+        feedback,
+      });
+      console.log('Document written with ID: ', docRef.id);
+      alert('Feedback submitted successfully!');
+    } catch (error) {
+      console.error('Error adding document: ', error);
+      alert('Failed to submit feedback. Please try again.');
+    }
   };
 
 
@@ -149,40 +165,67 @@ function App() {
         <p><em>Extreme Daylight Variation (India):</em> Daylight hours ranging from 9 hours in winter to 15 hours in summer (in northern regions)</p>
         <h5>Worldwide:</h5>
         <p><em>Extreme Daylight Variation:</em> Near the North and South Poles, where daylight can last for months in summer and be absent for months in winter.</p>
+{isLoggedIn && (
+          <div className="feedback-form">
+            <h2>Feedback Form</h2>
+            <div className="input-group">
+              <label>First Name:</label>
+              <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+            </div>
+            <div className="input-group">
+              <label>Last Name:</label>
+              <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} />
+            </div>
+            <div className="input-group">
+              <label>Email:</label>
+              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            </div>
+            <div className="input-group">
+              <label>Phone Number:</label>
+              <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} />
+            </div>
+            <div className="input-group">
+              <label>Weather Option:</label>
+              <div>
+                <input type="radio" name="weatherOption" value="thunderstorm" onChange={(e) => setWeatherOption(e.target.value)} />
+                Thunderstorm
+              </div>
+              <div>
+                <input type="radio" name="weatherOption" value="rain" onChange={(e) => setWeatherOption(e.target.value)} />
+                Rain
+              </div>
+              <div>
+                <input type="radio" name="weatherOption" value="sunny" onChange={(e) => setWeatherOption(e.target.value)} />
+                Sunny
+              </div>
+              <div>
+                <input type="radio" name="weatherOption" value="cloudy" onChange={(e) => setWeatherOption(e.target.value)} />
+                Cloudy
+              </div>
+              <div>
+                <input type="radio" name="weatherOption" value="alloption" onChange={(e) => setWeatherOption(e.target.value)} />
+                All Option
+              </div>
+            </div>
+            <div className="input-group">
+              <label>Feedback Description:</label>
+              <textarea value={feedback} onChange={(e) => setFeedback(e.target.value)} />
+            </div>
+            <button onClick={handleSubmit}>Submit Feedback</button>
+          </div>
+        )}
 
         {!isLoggedIn ? (
           <div className="auth-section">
-            <h2>{isSignUp ? 'Sign Up' : 'Login'}</h2>
-            <div className="input-group">
-              <label>Email:</label>
-              <input
-                type="email"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-            </div>
-            <div className="input-group">
-              <label>Password:</label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-            <button onClick={handleAuth}>{isSignUp ? 'Sign Up' : 'Login'}</button>
-            <button onClick={() => setIsSignUp(!isSignUp)}>
-              Switch to {isSignUp ? 'Login' : 'Sign Up'}
-            </button>
+            {/* ... Existing authentication JSX */}
           </div>
         ) : (
           <div className="logout-section">
-            <h2>Welcome, {username}!</h2>
-            <button onClick={handleLogout}>Logout</button>
+            {/* ... Existing logout JSX */}
           </div>
         )}
       </div>
     </div>
   );
 }
-
 export default App;
