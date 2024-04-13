@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { initializeApp } from 'firebase/app';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import './App.css';
+import CurrentLocation from './currentLocation';
+import Chatbot from './Chatbot';
 
 // Initialize Firebase
 const firebaseConfig = {
@@ -67,12 +69,14 @@ function App() {
 
 
 
+
   return (
-    <div className="app-container">
+   <div className="app-container">
       <div className="container">
+        {/* Assuming CurrentLocation and Chatbot components are imported */}
         <CurrentLocation />
+        <Chatbot />
       </div>
-      <Chatbot />
       <div className="darkBackground">
         <h1>Weather Information</h1>
         <h2>UV Index</h2>
@@ -182,7 +186,7 @@ function App() {
         <button onClick={handleSubmit}>Submit Feedback</button>
       </div>
 
-      {!isLoggedIn ? (
+     {!isLoggedIn ? (
         <div className="auth-section">
           <h2>Login</h2>
           <div className="input-group">
@@ -201,6 +205,7 @@ function App() {
           <button onClick={handleLogout}>Logout</button>
         </div>
       )}
+    </div>
   );
 }
 
