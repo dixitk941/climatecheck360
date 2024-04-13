@@ -4,6 +4,8 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, si
 import './App.css';
 import CurrentLocation from './currentLocation';
 import Chatbot from './Chatbot';
+import { getDatabase, ref, push } from 'firebase/database';
+
 
 // Initialize Firebase
 const firebaseConfig = {
@@ -19,6 +21,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getDatabase(app);
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
