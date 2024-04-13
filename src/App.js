@@ -22,20 +22,40 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isSignUp, setIsSignUp] = useState(false); // to toggle between login and sign-up
 
+  useEffect(() => {
+    // Listener for authentication state change
+    const unsubscribe = auth.onAuthStateChanged(user => {
+      if (user) {
+        setIsLoggedIn(true);
+        setUsername(user.email);
+      } else {
+        setIsLoggedIn(false);
+        setUsername('');
+        setPassword('');
+      }
+    });
+
+    // Cleanup
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
   const handleAuth = async () => {
     try {
       if (isSignUp) {
-        await auth.createUserWithEmailAndPassword(username, password);
+        await createUserWithEmailAndPassword(auth, username, password);
         alert('Sign-up successful! Please log in.');
         setIsSignUp(false); // Switch back to login after successful sign-up
       } else {
-        await auth.signInWithEmailAndPassword(username, password);
+        await signInWithEmailAndPassword(auth, username, password);
         setIsLoggedIn(true);
       }
     } catch (error) {
@@ -45,11 +65,12 @@ function App() {
   };
 
   const handleLogout = () => {
-    auth.signOut();
+    signOut(auth);
     setIsLoggedIn(false);
     setUsername('');
     setPassword('');
   };
+
 
 
   return (
