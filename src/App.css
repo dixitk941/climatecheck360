@@ -6,6 +6,13 @@
 --*/
 
 /*-- Reset Code --*/
+.darkBackground {
+  background-color: #1a1a1a; /* Dark gray background color */
+  color: #ffffff; /* White text color */
+  padding: 20px; /* Padding to give some space around the content */
+  border-radius: 8px; /* Rounded corners for aesthetic */
+  margin-bottom: 20px; /* Margin at the bottom to separate from other sections */
+}
 
 html,
 body,
