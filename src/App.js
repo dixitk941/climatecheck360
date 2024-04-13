@@ -10,6 +10,7 @@ function App() {
       <div className="container">
         <CurrentLocation />
       </div>
+     <Chatbot />
 
       <div className="darkBackground"> 
         <h1>Weather Information</h1>
