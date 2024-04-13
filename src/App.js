@@ -1,10 +1,11 @@
+import { initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
+
+
 import React, { useState } from 'react';
 import CurrentLocation from './currentLocation';
 import Chatbot from './Chatbot';
 import './App.css';
-
-import firebase from 'firebase/app';
-import 'firebase/auth';
 
 // Initialize Firebase
 const firebaseConfig = {
@@ -26,8 +27,8 @@ const firebaseConfig = {
 
 };
 
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
