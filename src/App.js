@@ -3,40 +3,26 @@ import CurrentLocation from './currentLocation';
 import './App.css';
 
 function App() {
-  const [loadChatbot, setLoadChatbot] = useState(false);
+  const [isChatbotLoaded, setIsChatbotLoaded] = useState(false);
 
-  useEffect(() => {
-    // Set a timeout to load the chatbot script after 2 seconds
-    const timer = setTimeout(() => {
-      setLoadChatbot(true);
-    }, 2000);
+  const loadChatbotScript = () => {
+    const script = document.createElement('script');
+    script.src = "https://www.chatbob.co/embed.js";
+    script.id = "lI3pccWnSTGYwnMU1SS0JQ";
+    script.defer = true;
+    document.body.appendChild(script);
 
-    // Clean up the timer
-    return () => {
-      clearTimeout(timer);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (loadChatbot) {
-      const script = document.createElement('script');
-      script.src = "https://www.chatbob.co/embed.js";
-      script.id = "lI3pccWnSTGYwnMU1SS0JQ";
-      script.defer = true;
-      document.body.appendChild(script);
-
-      return () => {
-        document.body.removeChild(script);
-      };
-    }
-  }, [loadChatbot]);
-
+    setIsChatbotLoaded(true);
+  };
 
   return (
     <>
       <div className="container">
         <CurrentLocation />
       </div>
+     {!isChatbotLoaded && (
+          <button onClick={loadChatbotScript}>Activate Chatbot</button>
+        )}
       <div className="darkBackground"> 
         <h1>Weather Information</h1>
 
