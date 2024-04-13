@@ -37,4 +37,11 @@
       "last 1 safari version"
     ]
   }
+
+  {
+  "dependencies": {
+    "firebase": "^9.0.0" // or the version you are using
+  }
+}
+
 }
