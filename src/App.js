@@ -61,11 +61,6 @@ function App() {
     setPassword('');
   };
 
-  // ... rest of your code
-}
-
-export default App;
-
 
   return (
     <div className="app-container">
