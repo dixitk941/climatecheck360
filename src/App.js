@@ -1,8 +1,6 @@
+import React, { useState, useEffect } from 'react';
 import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
-
-
-import React, { useState } from 'react';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import CurrentLocation from './currentLocation';
 import Chatbot from './Chatbot';
 import './App.css';
@@ -19,7 +17,6 @@ const firebaseConfig = {
   measurementId: "G-WL33DTYDFY"
 
 };
-
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
@@ -70,7 +67,6 @@ function App() {
     setUsername('');
     setPassword('');
   };
-
 
 
   return (
