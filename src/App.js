@@ -5,14 +5,24 @@ import './App.css';
 function App() {
   const [isChatbotLoaded, setIsChatbotLoaded] = useState(false);
 
-  const loadChatbotScript = () => {
-    const script = document.createElement('script');
-    script.src = "https://www.chatbob.co/embed.js";
-    script.id = "lI3pccWnSTGYwnMU1SS0JQ";
-    script.defer = true;
-    document.body.appendChild(script);
+  const loadChatbotScript = async () => {
+    try {
+      const script = document.createElement('script');
+      script.src = "https://www.chatbob.co/embed.js";
+      script.id = "lI3pccWnSTGYwnMU1SS0JQ";
+      script.defer = true;
 
-    setIsChatbotLoaded(true);
+      // Dynamically import the script
+      await new Promise((resolve, reject) => {
+        script.onload = resolve;
+        script.onerror = reject;
+        document.body.appendChild(script);
+      });
+
+      setIsChatbotLoaded(true);
+    } catch (error) {
+      console.error('Failed to load chatbot script:', error);
+    }
   };
 
   return (
