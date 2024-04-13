@@ -14,7 +14,8 @@
     "react-live-clock": "^4.0.5",
     "react-scripts": "3.4.1",
     "react-skycons": "^0.7.0",
-    "skycons": "^1.0.0"
+    "skycons": "^1.0.0",
+    "firebase": "^9.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -37,11 +38,4 @@
       "last 1 safari version"
     ]
   }
-
-  {
-  "dependencies": {
-    "firebase": "^9.0.0" // or the version you are using
-  }
-}
-
 }
