@@ -44,6 +44,15 @@ function App() {
     }
   };
 
+  const handleSignUp = async () => {
+    try {
+      await auth.createUserWithEmailAndPassword(username, password);
+      setIsLoggedIn(true);
+    } catch (error) {
+      alert('Failed to sign up. Please try again.');
+    }
+  };
+
   const handleLogout = () => {
     auth.signOut();
     setIsLoggedIn(false);
@@ -132,9 +141,9 @@ function App() {
         <h5>Worldwide:</h5>
         <p><em>Extreme Daylight Variation:</em> Near the North and South Poles, where daylight can last for months in summer and be absent for months in winter.</p>
 
-        {!isLoggedIn ? (
+         {!isLoggedIn ? (
           <div className="login-section">
-            <h2>Login</h2>
+            <h2>Login or Sign Up</h2>
             <div className="input-group">
               <label>Username:</label>
               <input
@@ -151,7 +160,10 @@ function App() {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            <button onClick={handleLogin}>Login</button>
+            <div className="buttons">
+              <button onClick={handleLogin}>Login</button>
+              <button onClick={handleSignUp}>Sign Up</button>
+            </div>
           </div>
         ) : (
           <div className="logout-section">
@@ -163,5 +175,6 @@ function App() {
     </div>
   );
 }
+
 
 export default App;
