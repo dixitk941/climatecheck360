@@ -167,31 +167,40 @@ const handleSubmit = async () => {
         <h5>Worldwide:</h5>
         <p><em>Extreme Daylight Variation:</em> Near the North and South Poles, where daylight can last for months in summer and be absent for months in winter.</p>
       </div>
-      <div className="feedback-form">
+       <div className="feedback-form">
         <h2>Feedback Form</h2>
-        {/* Feedback Form fields */}
         <div className="input-group">
           <label>First Name:</label>
           <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+</div>
+        <div className="input-group">
+          <label>Last Name:</label>
+          <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} />
         </div>
-        {/* ... (other input groups) */}
+        <div className="input-group">
+          <label>Email:</label>
+          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+        </div>
+        <div className="input-group">
+          <label>Phone Number:</label>
+          <input type="tel" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
+        </div>
         <div className="input-group">
           <label>Weather Option:</label>
           <select value={weatherOption} onChange={(e) => setWeatherOption(e.target.value)}>
-            <option value="thunderstorm">Thunderstorm</option>
-            <option value="rain">Rain</option>
-            <option value="sunny">Sunny</option>
-            <option value="cloudy">Cloudy</option>
-            <option value="alloption">All Options</option>
-          </select>
-        </div>
-        <div className="input-group">
-          <label>Feedback:</label>
-          <textarea value={feedback} onChange={(e) => setFeedback(e.target.value)} />
-        </div>
-        <button onClick={handleSubmit}>Submit Feedback</button>
+          <option value="thunderstorm">Thunderstorm</option>
+          <option value="rain">Rain</option>
+          <option value="sunny">Sunny</option>
+          <option value="cloudy">Cloudy</option>
+          <option value="alloption">All Options</option>
+        </select>
       </div>
-
+      <div className="input-group">
+        <label>Feedback:</label>
+        <textarea value={feedback} onChange={(e) => setFeedback(e.target.value)} />
+      </div>
+      <button onClick={handleSubmit}>Submit Feedback</button>
+    </div>
    {!isLoggedIn ? (
       <div className="auth-section">
         <h2>Login</h2>
