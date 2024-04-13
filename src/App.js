@@ -53,7 +53,7 @@ function App() {
 
 const handleSubmit = async () => {
     // Firebase Realtime Database reference
-    const dbRef = ref(getDatabase(app), 'feedbacks'); // 'feedbacks' is the node where you want to store the feedbacks
+  const dbRef = ref(db, 'feedbacks'); // 'feedbacks' is the node where you want to store the feedbacks
 
     // Data to be submitted
     const feedbackData = {
