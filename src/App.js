@@ -3,6 +3,20 @@ import CurrentLocation from "./currentLocation";
 import "./App.css";
 
 function App() {
+  
+  useEffect(() => {
+    const script = document.createElement('script');
+    
+    script.src = "https://www.chatbob.co/embed.js";
+    script.id = "lI3pccWnSTGYwnMU1SS0JQ";
+    script.defer = true;
+
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    }
+  }, []);
   return (
        <React.Fragment>
       <div className="container">
