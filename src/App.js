@@ -169,7 +169,7 @@ function App() {
         </div>
         <div className="input-group">
           <label>Weather Option:</label>
-          <select value={weatherOption} onChange={(e) => setWeatherOption(e.        target.value)}>
+          <select value={weatherOption} onChange={(e) => setWeatherOption(e.target.value)}>
           <option value="thunderstorm">Thunderstorm</option>
           <option value="rain">Rain</option>
           <option value="sunny">Sunny</option>
