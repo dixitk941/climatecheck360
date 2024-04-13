@@ -2,7 +2,55 @@ import React from 'react';
 import CurrentLocation from './currentLocation';
 import Chatbot from './Chatbot';
 import './App.css';
+
+ import firebase from 'firebase/app';
+import 'firebase/auth';
+
+
+// Initialize Firebase
+const firebaseConfig = {
+ apiKey: "AIzaSyDLT5VGNrm5_Ks9gs8YlBvvS9rKrKjD2sY",
+
+  authDomain: "climate-check-360.firebaseapp.com",
+
+  databaseURL: "https://climate-check-360-default-rtdb.firebaseio.com",
+
+  projectId: "climate-check-360",
+
+  storageBucket: "climate-check-360.appspot.com",
+
+  messagingSenderId: "491332887364",
+
+  appId: "1:491332887364:web:6da35e591994f98f54ad11",
+
+  measurementId: "G-WL33DTYDFY"
+
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLogin = async () => {
+    try {
+      await auth.signInWithEmailAndPassword(username, password);
+      setIsLoggedIn(true);
+    } catch (error) {
+      alert('Invalid credentials. Please try again.');
+    }
+  };
+
+  const handleLogout = () => {
+    auth.signOut();
+    setIsLoggedIn(false);
+    setUsername('');
+    setPassword('');
+  };
+
  
 
   return (
@@ -95,7 +143,36 @@ function App() {
         <h5>Worldwide:</h5>
         <p><em>Extreme Daylight Variation:</em> Near the North and South Poles, where daylight can last for months in summer and be absent for months in winter.</p>
       </div>
-   </>
+  {/* Login Section */}
+        {!isLoggedIn ? (
+          <div className="login-section">
+            <h2>Login</h2>
+            <div className="input-group">
+              <label>Username:</label>
+              <input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </div>
+            <div className="input-group">
+              <label>Password:</label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <button onClick={handleLogin}>Login</button>
+          </div>
+        ) : (
+          <div className="logout-section">
+            <h2>Welcome, {username}!</h2>
+            <button onClick={handleLogout}>Logout</button>
+          </div>
+        )}
+      </div>
+    </>
   );
 }
 
