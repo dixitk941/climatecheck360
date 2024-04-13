@@ -33,24 +33,21 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [isSignUp, setIsSignUp] = useState(false); // to toggle between login and sign-up
 
-  const handleLogin = async () => {
+  const handleAuth = async () => {
     try {
-      await auth.signInWithEmailAndPassword(username, password);
-      setIsLoggedIn(true);
+      if (isSignUp) {
+        await auth.createUserWithEmailAndPassword(username, password);
+        alert('Sign-up successful! Please log in.');
+        setIsSignUp(false); // Switch back to login after successful sign-up
+      } else {
+        await auth.signInWithEmailAndPassword(username, password);
+        setIsLoggedIn(true);
+      }
     } catch (error) {
-      alert('Invalid credentials. Please try again.');
-    }
-  };
-
-  const handleSignUp = async () => {
-    console.log("Signing up with:", username, password); // Log the input values
-    try {
-      await auth.createUserWithEmailAndPassword(username, password);
-      setIsLoggedIn(true);
-    } catch (error) {
-      console.error("Error signing up:", error.message); // Log the error message
-      alert('Failed to sign up. Please try again.');
+      console.error(error);
+      alert('Failed to authenticate. Please try again.');
     }
   };
 
@@ -143,13 +140,13 @@ function App() {
         <h5>Worldwide:</h5>
         <p><em>Extreme Daylight Variation:</em> Near the North and South Poles, where daylight can last for months in summer and be absent for months in winter.</p>
 
-         {!isLoggedIn ? (
-          <div className="login-section">
-            <h2>Login or Sign Up</h2>
+        {!isLoggedIn ? (
+          <div className="auth-section">
+            <h2>{isSignUp ? 'Sign Up' : 'Login'}</h2>
             <div className="input-group">
-              <label>Username:</label>
+              <label>Email:</label>
               <input
-                type="text"
+                type="email"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
               />
@@ -162,10 +159,10 @@ function App() {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            <div className="buttons">
-              <button onClick={handleLogin}>Login</button>
-              <button onClick={handleSignUp}>Sign Up</button>
-            </div>
+            <button onClick={handleAuth}>{isSignUp ? 'Sign Up' : 'Login'}</button>
+            <button onClick={() => setIsSignUp(!isSignUp)}>
+              Switch to {isSignUp ? 'Login' : 'Sign Up'}
+            </button>
           </div>
         ) : (
           <div className="logout-section">
@@ -177,6 +174,5 @@ function App() {
     </div>
   );
 }
-
 
 export default App;
