@@ -1,7 +1,6 @@
-import React from 'react';
-import CurrentLocation from "./currentLocation";
-import "./App.css";
-import React, { useEffect } from 'react'; 
+import React, { useEffect } from 'react';
+import CurrentLocation from './currentLocation';
+import './App.css';
 
 function App() {
   
@@ -16,13 +15,23 @@ function App() {
 
     return () => {
       document.body.removeChild(script);
-    }
+    };
   }, []);
+
   return (
-       <React.Fragment>
+    <React.Fragment>
       <div className="container">
         <CurrentLocation />
       </div>
+      <div className="darkBackground"> 
+        {/* Your content remains the same */}
+      </div>
+    </React.Fragment>
+  );
+}
+
+export default App;
+
       <div className="darkBackground"> 
       <h1>Weather Information</h1>
 
