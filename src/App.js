@@ -3,19 +3,34 @@ import CurrentLocation from './currentLocation';
 import './App.css';
 
 function App() {
-  
-    useEffect(() => {
-    // Comment out the script for now
-    // const script = document.createElement('script');
-    // script.src = "https://www.chatbob.co/embed.js";
-    // script.id = "lI3pccWnSTGYwnMU1SS0JQ";
-    // script.defer = true;
-    // document.body.appendChild(script);
+  const [loadChatbot, setLoadChatbot] = useState(false);
 
-    // return () => {
-    //   document.body.removeChild(script);
-   // };
-       }, []);
+  useEffect(() => {
+    // Set a timeout to load the chatbot script after 2 seconds
+    const timer = setTimeout(() => {
+      setLoadChatbot(true);
+    }, 2000);
+
+    // Clean up the timer
+    return () => {
+      clearTimeout(timer);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (loadChatbot) {
+      const script = document.createElement('script');
+      script.src = "https://www.chatbob.co/embed.js";
+      script.id = "lI3pccWnSTGYwnMU1SS0JQ";
+      script.defer = true;
+      document.body.appendChild(script);
+
+      return () => {
+        document.body.removeChild(script);
+      };
+    }
+  }, [loadChatbot]);
+
 
   return (
     <>
