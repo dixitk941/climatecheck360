@@ -48,17 +48,38 @@ function App() {
     };
   }, []);
 
-  const handleSubmit = async () => {
-    // Submit feedback to Firebase or any other service
-    console.log('Submitting feedback:', {
+const handleSubmit = async () => {
+    // Firebase Realtime Database reference
+    const dbRef = ref(getDatabase(app), 'feedbacks'); // 'feedbacks' is the node where you want to store the feedbacks
+
+    // Data to be submitted
+    const feedbackData = {
       firstName,
       lastName,
       email,
       phoneNumber,
       feedback,
       weatherOption
-    });
-  };
+    };
+
+    try {
+      // Pushing data to Firebase
+      await push(dbRef, feedbackData);
+      
+      // Clear the form after submission
+      setFirstName('');
+      setLastName('');
+      setEmail('');
+      setPhoneNumber('');
+      setFeedback('');
+      setWeatherOption('');
+
+      console.log('Feedback submitted successfully!');
+    } catch (error) {
+      console.error('Error submitting feedback:', error);
+    }
+};
+
 
   const handleLogout = () => {
     signOut(auth);
