@@ -1,9 +1,10 @@
 import React from "react";
-import apiKeys from "./apiKeys";
 import Clock from "react-live-clock";
 import Forcast from "./forcast";
 import loader from "./images/WeatherIcons.gif";
 import ReactAnimatedWeather from "react-animated-weather";
+import apiKeys from "./apiKeys";
+
 const dateBuilder = (d) => {
   let months = [
     "January",
@@ -36,11 +37,13 @@ const dateBuilder = (d) => {
 
   return `${day}, ${date} ${month} ${year}`;
 };
+
 const defaults = {
   color: "white",
   size: 112,
   animate: true,
 };
+
 class Weather extends React.Component {
   state = {
     lat: undefined,
@@ -51,23 +54,18 @@ class Weather extends React.Component {
     city: undefined,
     country: undefined,
     humidity: undefined,
-    description: undefined,
+    main: undefined,
     icon: "CLEAR_DAY",
-    sunrise: undefined,
-    sunset: undefined,
-    errorMsg: undefined,
   };
 
   componentDidMount() {
     if (navigator.geolocation) {
       this.getPosition()
-        //If user allow location service then will fetch data & send it to get-weather function.
         .then((position) => {
           this.getWeather(position.coords.latitude, position.coords.longitude);
         })
         .catch((err) => {
-          //If user denied location service then standard location weather will le shown on basis of latitude & latitude.
-          this.getWeather(28.67, 77.22);
+          this.getWeather(28.67, 77.22); // Default to a location if geolocation is denied
           alert(
             "You have disabled location service. Allow 'This APP' to access your location. Your current location will be used for calculating Real time weather."
           );
@@ -86,39 +84,45 @@ class Weather extends React.Component {
     clearInterval(this.timerID);
   }
 
-  // tick = () => {
-  //   this.getPosition()
-  //   .then((position) => {
-  //     this.getWeather(position.coords.latitude, position.coords.longitude)
-  //   })
-  //   .catch((err) => {
-  //     this.setState({ errorMessage: err.message });
-  //   });
-  // }
-
-  getPosition = (options) => {
+  getPosition = () => {
     return new Promise(function (resolve, reject) {
-      navigator.geolocation.getCurrentPosition(resolve, reject, options);
+      navigator.geolocation.getCurrentPosition(resolve, reject);
     });
   };
-  getWeather = async (lat, lon) => {
-    const api_call = await fetch(
-      `${apiKeys.base}weather?lat=${lat}&lon=${lon}&units=metric&APPID=${apiKeys.key}`
-    );
-    const data = await api_call.json();
-    this.setState({
-      lat: lat,
-      lon: lon,
-      city: data.name,
-      temperatureC: Math.round(data.main.temp),
-      temperatureF: Math.round(data.main.temp * 1.8 + 32),
-      humidity: data.main.humidity,
-      main: data.weather[0].main,
-      country: data.sys.country,
-      // sunrise: this.getTimeFromUnixTimeStamp(data.sys.sunrise),
 
-      // sunset: this.getTimeFromUnixTimeStamp(data.sys.sunset),
-    });
+  getWeather = async (lat, lon) => {
+    try {
+      const api_call = await fetch(
+        `${apiKeys.base}weather?lat=${lat}&lon=${lon}&units=metric&APPID=${apiKeys.key}`
+      );
+      if (!api_call.ok) {
+        throw new Error('Failed to fetch weather data');
+      }
+      const data = await api_call.json();
+      console.log("Weather API data:", data);
+
+      this.setState({
+        lat: lat,
+        lon: lon,
+        city: data.name,
+        temperatureC: Math.round(data.main.temp),
+        temperatureF: Math.round(data.main.temp * 1.8 + 32),
+        humidity: data.main.humidity,
+        main: data.weather[0].main,
+        country: data.sys.country,
+      });
+
+      this.setWeatherIcon();
+    } catch (error) {
+      console.error('Error fetching weather data:', error);
+      // Handle error gracefully, e.g., display a message to the user
+      this.setState({
+        errorMessage: 'Failed to fetch weather data. Please try again later.'
+      });
+    }
+  };
+
+  setWeatherIcon = () => {
     switch (this.state.main) {
       case "Haze":
         this.setState({ icon: "CLEAR_DAY" });
@@ -139,8 +143,6 @@ class Weather extends React.Component {
         this.setState({ icon: "SLEET" });
         break;
       case "Fog":
-        this.setState({ icon: "FOG" });
-        break;
       case "Smoke":
         this.setState({ icon: "FOG" });
         break;
@@ -153,23 +155,24 @@ class Weather extends React.Component {
   };
 
   render() {
-    if (this.state.temperatureC) {
+    const { city, country, main, temperatureC, icon } = this.state;
+
+    if (temperatureC) {
       return (
         <React.Fragment>
           <div className="city">
             <div className="title">
-              <h2>{this.state.city}</h2>
-              <h3>{this.state.country}</h3>
+              <h2>{city}</h2>
+              <h3>{country}</h3>
             </div>
             <div className="mb-icon">
-              {" "}
               <ReactAnimatedWeather
-                icon={this.state.icon}
+                icon={icon}
                 color={defaults.color}
                 size={defaults.size}
                 animate={defaults.animate}
               />
-              <p>{this.state.main}</p>
+              <p>{main}</p>
             </div>
             <div className="date-time">
               <div className="dmy">
@@ -181,25 +184,23 @@ class Weather extends React.Component {
               </div>
               <div className="temperature">
                 <p>
-                  {this.state.temperatureC}°<span>C</span>
+                  {temperatureC}°<span>C</span>
                 </p>
-                {/* <span className="slash">/</span>
-                {this.state.temperatureF} &deg;F */}
               </div>
             </div>
           </div>
-          <Forcast icon={this.state.icon} weather={this.state.main} />
+          <Forcast icon={icon} weather={main} />
         </React.Fragment>
       );
     } else {
       return (
         <React.Fragment>
-          <img src={loader} style={{ width: "50%", WebkitUserDrag: "none" }} />
+          <img src={loader} style={{ width: "50%", WebkitUserDrag: "none" }} alt="Loading" />
           <h3 style={{ color: "white", fontSize: "22px", fontWeight: "600" }}>
             Detecting your location
           </h3>
           <h3 style={{ color: "white", marginTop: "10px" }}>
-            Your current location wil be displayed on the App <br></br> & used
+            Your current location will be displayed on the App <br></br> & used
             for calculating Real time weather.
           </h3>
         </React.Fragment>
