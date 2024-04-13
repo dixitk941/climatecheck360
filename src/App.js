@@ -44,6 +44,39 @@ function App() {
     }
   };
 
+   const handleSignUp = async () => {
+  console.log("Signing up with:", username, password); // Log the input values
+  try {
+    await auth.createUserWithEmailAndPassword(username, password);
+    setIsLoggedIn(true);
+  } catch (error) {
+    console.error("Error signing up:", error.message); // Log the error message
+    alert('Failed to sign up. Please try again.');
+  }
+};
+const handleSignUp = async () => {
+  console.log("Signing up with:", username, password); // Log the input values
+  try {
+    await auth.createUserWithEmailAndPassword(username, password);
+    setIsLoggedIn(true);
+  } catch (error) {
+    console.error("Error signing up:", error.message); // Log the error message
+    alert('Failed to sign up. Please try again.');
+  }
+};
+
+
+   const handleSignUp = async () => {
+  try {
+    await auth.createUserWithEmailAndPassword(username, password);
+    setIsLoggedIn(true);
+  } catch (error) {
+    console.error("Error signing up:", error.message); // Log the error message
+    alert('Failed to sign up. Please try again.');
+  }
+};
+
+
   const handleSignUp = async () => {
     try {
       await auth.createUserWithEmailAndPassword(username, password);
